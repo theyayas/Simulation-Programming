@@ -1,0 +1,273 @@
+unit Unit1;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VclTee.TeeGDIPlus, Vcl.StdCtrls,
+  VCLTee.TeEngine, VCLTee.Series, Vcl.ExtCtrls, VCLTee.TeeProcs, VCLTee.Chart, math,
+  Vcl.Imaging.jpeg, Vcl.Grids, System.ImageList, Vcl.ImgList, Vcl.Menus,
+  Vcl.DBCtrls;
+
+type
+  matrikw = array [0..3,0..2] of extended;
+  TForm1 = class(TForm)
+    Button1: TButton;
+    Timer1: TTimer;
+    RadioButton1: TRadioButton;
+    GroupBox1: TGroupBox;
+    Chart1: TChart;
+    Series1: TLineSeries;
+    Chart2: TChart;
+    Series2: TLineSeries;
+    Chart3: TChart;
+    Series3: TLineSeries;
+    GroupBox2: TGroupBox;
+    Chart4: TChart;
+    Series4: TLineSeries;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Button2: TButton;
+    RadioButton2: TRadioButton;
+    RadioButton3: TRadioButton;
+    GroupBox3: TGroupBox;
+    Image1: TImage;
+    Label1: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
+    TopologyAvailable: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  i, j, k  : integer;
+  input, output, layer1, outlayer1 : array [0..3,0..800] of extended;
+  input1, input2, input3, layer2, outlayer2 : array [0..800] of extended;
+  w1 : matrikw;
+  w2 : array [0..3] of extended;
+
+const
+  //Periode
+  T1 = 200;
+  T2 = 400;
+  T3 = 800;
+
+  //Treshold hidden layer 1
+  tresh1 = 1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+button2click(Sender);
+//Weight 1
+w1[0,0] := -1;     w1[1,0] := -1;     w1[2,0] := 1;      w1[3,0] := 1;
+w1[0,1] := -1;     w1[1,1] := 1;      w1[2,1] := -1;     w1[3,1] := 1;
+w1[0,2] := 1;      w1[1,2] := -1;     w1[2,2] := -1;     w1[3,2] := 1;
+
+//Weight 2
+for J := 0 to 3 do
+begin
+    w2[j] := 1;
+end;
+
+series1.Clear;
+series2.Clear;
+series3.Clear;
+series4.Clear;
+
+for I := 0 to 800 do
+begin
+    //Proses Mencari Input
+    input1[i] := (sign(-sin(2*pi*i/T1)) + 1)*0.5;
+    input[0,i] := (input1[i]);
+    //series1.AddXY(i, input1[i]);
+
+    input2[i] := (sign(-sin(2*pi*i/T2)) + 1)*0.5;
+    input[1,i] := (input2[i]);
+    //series2.AddXY(i, input2[i]);
+
+    input3[i] := (sign(-sin(2*pi*i/T3)) + 1)*0.5;
+    input[2,i] := (input3[i]);
+    //series3.AddXY(i, input3[i]);
+          {"+ 1" untuk menambah offset dari sinyal agar sinyal berada di atas nol.}
+          {"*0.5" untuk membuat sinyal menjadi serial biner (0 dan 1)}
+end;
+
+if radiobutton1.Checked = true then
+begin
+  TopologyAvailable.Visible := false;
+  image1.Visible := true;
+
+  label5.Caption := floattostr(w1[0,0]);    label5.visible := true;
+  label6.Caption := floattostr(w1[0,1]);    label6.visible := true;
+  label7.Caption := floattostr(w1[0,2]);    label7.visible := true;
+
+  label8.Caption := floattostr(w1[1,0]);    label8.visible := true;
+  label9.Caption := floattostr(w1[1,1]);    label9.visible := true;
+  label10.Caption := floattostr(w1[1,2]);   label10.visible := true;
+
+  label11.Caption := floattostr(w1[2,0]);   label11.visible := true;
+  label12.Caption := floattostr(w1[2,1]);   label12.visible := true;
+  label13.Caption := floattostr(w1[2,2]);   label13.visible := true;
+
+  label14.Caption := floattostr(w1[3,0]);   label14.visible := true;
+  label15.Caption := floattostr(w1[3,1]);   label15.visible := true;
+  label16.Caption := floattostr(w1[3,2]);   label16.visible := true;
+
+  label17.Caption := floattostr(w2[0]);    label17.visible := true;
+  label18.Caption := floattostr(w2[1]);    label18.visible := true;
+  label19.Caption := floattostr(w2[2]);    label19.visible := true;
+  label20.Caption := floattostr(w2[3]);    label20.visible := true;
+
+  //treshold
+  label21.Visible := true;
+  label22.Visible := true;
+  label23.Visible := true;
+  label24.Visible := true;
+  label25.Visible := true;
+
+  //Layer 1 huhuy (AND)
+  for I := 0 to 800 do
+  begin
+    for j := 0 to 3 do
+    begin
+      layer1[j,i] := 0;
+      for k := 0 to 2 do
+      begin
+        layer1[j,i] := layer1[j,i] + input[k,i]*w1[j,k];
+      end;
+    end;
+  end;
+
+  for j := 0 to 3 do
+  begin
+    for i := 0 to 800 do
+      begin
+        if layer1[j,i] >= 1 {threshold} then outlayer1[j,i] := 1 else outlayer1[j,i] := 0;
+        input[j,i] := outlayer1[j,i];                                                       //
+        if layer1[3,i] >= 3 {threshold} then outlayer1[3,i] := 1 else outlayer1[3,i] := 0;  //
+        input[3,i] := outlayer1[3,i];                                                       //Konversi Neuron pada Hidden Layer 1 jadi Input untuk Layer selanjutnya
+      end;
+  end;
+
+  //Layer 2 huhuy (OR)
+  for I := 0 to 800 do
+  begin
+    layer2[i] := 0;
+    for J := 0 to 3 do
+    begin
+      layer2[i] := layer2[i] + input[j,i]*w2[j];
+    end;
+    if layer2[i] >= 1 {threshold} then outlayer2[i] := 1 else outlayer2[i] := 0;
+  end;
+end
+
+else if radiobutton2.Checked = true then
+begin
+  TopologyAvailable.Visible := true;
+  for I := 0 to 800 do
+  begin
+    if (input1[i] = 1) and (input2[i] = 1) and (input3[i] = 1) then outlayer2[i] := 1
+    else outlayer2[i] := 0;
+  end;
+end
+
+else if radiobutton3.Checked = true then
+begin
+  TopologyAvailable.Visible := true;
+  for I := 0 to 800 do
+  begin
+    if (input1[i] = 1) or (input2[i] = 1) or (input3[i] = 1) then outlayer2[i] := 1
+    else outlayer2[i] := 0;
+  end;
+end;
+
+
+i := 0;
+
+timer1.Enabled := true;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+series1.Clear;
+series2.Clear;
+series3.Clear;
+series4.Clear;
+
+image1.Visible := false;
+
+label5.visible := false;
+label6.visible := false;
+label7.visible := false;
+
+label8.visible := false;
+label9.visible := false;
+label10.visible := false;
+
+label11.visible := false;
+label12.visible := false;
+label13.visible := false;
+
+label14.visible := false;
+label15.visible := false;
+label16.visible := false;
+
+label17.visible := false;
+label18.visible := false;
+label19.visible := false;
+label20.visible := false;
+
+//treshold
+label21.Visible := false;
+label22.Visible := false;
+label23.Visible := false;
+label24.Visible := false;
+label25.Visible := false;
+
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  series1.AddXY(i, input1[i]);
+  series2.AddXY(i, input2[i]);
+  series3.AddXY(i, input3[i]);
+  series4.AddXY(i, outlayer2[i]);
+
+  i := i + 1;
+
+  if i = 800 then
+    timer1.Enabled := false;
+end;
+
+end.

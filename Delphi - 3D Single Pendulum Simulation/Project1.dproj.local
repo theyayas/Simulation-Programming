@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2018/09/18 22:00:00.000.269,=C:\Users\ASUS\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/09/19 23:00:00.000.721,=C:\Users\ASUS\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2019/10/01 15:00:00.000.324,=C:\Users\ASUS\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2019/10/06 23:00:00.000.449,=C:\Users\ASUS\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2019/12/22 20:00:00.000.336,=C:\Users\ASUS\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2019/12/22 21:00:00.000.648,C:\Users\ASUS\Documents\Embarcadero\Studio\Projects\Unit1.dfm=D:\KULIAH\SEMESTER 7\BIOMODELING\PAK ARIFIN\3D PENDULUM NEW\Unit1.dfm</Transaction>
+    <Transaction>2019/12/22 21:00:00.000.648,C:\Users\ASUS\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\KULIAH\SEMESTER 7\BIOMODELING\PAK ARIFIN\3D PENDULUM NEW\Unit1.pas</Transaction>
+    <Transaction>2019/12/22 21:00:00.000.279,C:\Users\ASUS\Documents\Embarcadero\Studio\Projects\Project1.dproj=D:\KULIAH\SEMESTER 7\BIOMODELING\PAK ARIFIN\3D PENDULUM NEW\Project1.dproj</Transaction>
+    <Transaction>2019/12/29 22:02:30.000.171,D:\ITS Yayas\Semester 5\Biomodeling\Lower Limb\Unit1.dfm=C:\Users\HP\Downloads\3D PENDULUM NEW\Unit1.dfm</Transaction>
+    <Transaction>2019/12/29 22:02:30.000.169,D:\ITS Yayas\Semester 5\Biomodeling\Lower Limb\Unit1.pas=C:\Users\HP\Downloads\3D PENDULUM NEW\Unit1.pas</Transaction>
+    <Transaction>2019/12/29 22:12:38.000.928,D:\ITS Yayas\Semester 5\Biomodeling\Lower Limb\Project1.dproj=C:\Users\HP\Downloads\3D PENDULUM NEW\Project1.dproj</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+</BorlandProject>
