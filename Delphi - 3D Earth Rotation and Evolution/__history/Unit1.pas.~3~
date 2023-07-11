@@ -1,0 +1,94 @@
+unit Unit1;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  System.Math.Vectors, FMX.Ani, FMX.Objects3D, FMX.MaterialSources,
+  FMX.Controls3D, FMX.Viewport3D, FMX.Controls.Presentation, FMX.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Viewport3D1: TViewport3D;
+    Dummy1: TDummy;
+    TextureMaterialSource1: TTextureMaterialSource;
+    TextureMaterialSource2: TTextureMaterialSource;
+    Sphere1: TSphere;
+    Sphere2: TSphere;
+    FloatAnimation1: TFloatAnimation;
+    Button1: TButton;
+    Timer1: TTimer;
+    FloatAnimation2: TFloatAnimation;
+    procedure Button1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+    procedure ScrollBar1Change(Sender: TObject);
+    procedure SmallScrollBar1Change(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  a, b, t, skala : integer;
+  epsilon : extended;
+  x, y, x_e, y_e : array[-1800..10000] of extended;
+
+implementation
+
+{$R *.fmx}
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+a := 5; //SemimajorAxis
+epsilon := 0.5;
+t := 0;
+
+timer1.enabled := true;
+end;
+
+procedure TForm1.ScrollBar1Change(Sender: TObject);
+begin
+ { scrollbar1.Min := 2;
+  scrollbar1.Max := 100;
+  dummy1.Scale.X := int(scrollbar1.Position);
+  dummy1.Scale.y := scrollbar1.Position;
+  dummy1.Scale.z := scrollbar1.Position; }
+end;
+
+procedure TForm1.SmallScrollBar1Change(Sender: TObject);
+begin
+  {smallscrollbar1.Min := 2;
+  smallscrollbar1.Max := 100;
+  dummy1.Scale.X := smallscrollbar1.Position;
+  dummy1.Scale.y := smallscrollbar1.Position;
+  dummy1.Scale.z := smallscrollbar1.Position;
+   }
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  //chart1lineseries1.clear;
+  x[t] := a*cos(t*pi/180-epsilon);
+  y[t] := a*sqrt(1-sqr(epsilon))*sin(t*pi/180);
+
+  x_e[t] := x[t]*cos(0.02*t*pi/180) - y[t]*sin(0.02*t*pi/180);
+  y_e[t] := x[t]*sin(0.02*t*pi/180) + y[t]*cos(0.02*t*pi/180);
+
+  sphere2.Position.X := x_e[t];
+  sphere2.Position.Z := y_e[t];
+
+  //Chart1Lineseries1.AddXY(x[t],y[t]);
+  //Chart1Lineseries2.AddXY(x[t],y[t]);
+  //Chart1Lineseries3.AddXY(0,0);
+  t := t + 1;
+  {if t = 360 then
+  begin
+    t := 0;
+    //chart1lineseries1.clear;
+  end;}
+end;
+
+end.

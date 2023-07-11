@@ -1,0 +1,71 @@
+unit Unit1;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  System.Math.Vectors, FMX.Ani, FMX.Objects3D, FMX.MaterialSources,
+  FMX.Controls3D, FMX.Viewport3D, FMX.Controls.Presentation, FMX.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Viewport3D1: TViewport3D;
+    Dummy1: TDummy;
+    TextureMaterialSource1: TTextureMaterialSource;
+    TextureMaterialSource2: TTextureMaterialSource;
+    Sphere1: TSphere;
+    Sphere2: TSphere;
+    FloatAnimation1: TFloatAnimation;
+    Button1: TButton;
+    Timer1: TTimer;
+    Path3D1: TPath3D;
+    procedure Button1Click(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  a, b, t : integer;
+  epsilon : extended;
+  x, y : array[-1800..10000] of extended;
+
+implementation
+
+{$R *.fmx}
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+a := 5; //SemimajorAxis
+epsilon := 0.5;
+t := 0;
+
+timer1.enabled := true;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  //chart1lineseries1.clear;
+  x[t] := a*cos(t*pi/180-epsilon);
+  y[t] := a*sqrt(1-sqr(epsilon))*sin(t*pi/180);
+  sphere2.Position.X := x[t];
+  sphere2.Position.Z := y[t];
+  Path3d1.Position.x := x[t];
+  Path3d1.Position.Z := y[t];
+
+  //Chart1Lineseries1.AddXY(x[t],y[t]);
+  //Chart1Lineseries2.AddXY(x[t],y[t]);
+  //Chart1Lineseries3.AddXY(0,0);
+  t := t + 1;
+  if t = 360 then
+  begin
+    t := 0;
+    //chart1lineseries1.clear;
+  end;
+end;
+
+end.

@@ -1,0 +1,142 @@
+unit Unit1;
+
+{$mode objfpc}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, TAGraph,
+  TASeries, TAMultiSeries, math;
+
+type
+
+  { TForm1 }
+
+  TForm1 = class(TForm)
+    Button1: TButton;
+    Chart1: TChart;
+    Chart1BubbleSeries1: TBubbleSeries;
+    Chart1BubbleSeries2: TBubbleSeries;
+    Chart1LineSeries1: TLineSeries;
+    Chart1LineSeries2: TLineSeries;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Edit4: TEdit;
+    Edit5: TEdit;
+    Edit6: TEdit;
+    Edit7: TEdit;
+    GroupBox1: TGroupBox;
+    ListBox1: TListBox;
+    procedure Button1Click(Sender: TObject);
+    procedure Edit4Change(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure GroupBox1Click(Sender: TObject);
+    procedure ListBox1Click(Sender: TObject);
+  private
+
+  public
+
+  end;
+
+var
+  m1, m2, l1, l2, i, j : integer;
+  sdt1, sdt2, h, g, tet1, tet2, x1, x2, y1, y2, in1, in2, Mat1, Mat2, Mat3 : extended;
+  tetdot1, tetdot2, xx1, xx2, yy1, yy2 : array[0..1000] of extended;
+  Mat : array[0..1,0..1] of extended;
+  //: array[0..3, 0..3] of extended;
+
+
+  Form1: TForm1;
+
+implementation
+
+{$R *.lfm}
+
+{ TForm1 }
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  Chart1Lineseries1.clear;
+  Chart1Lineseries2.clear;
+
+  m1 := strtoint(Edit1.Text);
+  l1 := strtoint(Edit2.Text);
+  sdt1 := strtofloat(Edit3.Text);
+  m2 := strtoint(Edit4.Text);
+  l2 := strtoint(Edit5.Text);
+  sdt2 := strtofloat(Edit6.Text);
+  h := strtofloat(Edit7.Text);
+
+  g := 9.8;
+  tetdot1[i] := 0;
+  tetdot2[i] := 0;
+
+  //listbox1.items.Add(floattostr(pi));
+
+  tet1 := sdt1*pi/180;
+  tet2 := sdt2*pi/180;
+
+  in1 := m1*l1**2;
+  in2 := m2*l2**2;
+
+
+  xx1[i] := 0;
+  xx2[i] := l1*sin(tet1);
+  yy1[i] := 0;
+  yy2[i] := -l1*cos(tet1);
+
+  Chart1Lineseries1.AddXY(xx1[i],yy1[i]);
+  Chart1Lineseries2.AddXY(xx2[i],yy2[i]);
+  Chart1Bubbleseries1.AddXY(xx1[i],yy1[i]);
+  Chart1Bubbleseries1.AddXY(xx2[i],yy2[i]);
+
+  for i := 0 to 1 do
+  begin
+    xx1[i] := l1*sin(tet1);
+    xx2[i] := l1*sin(tet1)+l2*sin(tet2);
+    yy1[i] := -l1*cos(tet1);
+    yy2[i] := -l1*cos(tet1)-l2*cos(tet2);
+
+    Chart1Lineseries1.AddXY(xx1[i],yy1[i]);
+    Chart1Lineseries2.AddXY(xx2[i],yy2[i]);
+    Chart1Bubbleseries1.AddXY(xx1[i],yy1[i]);
+    Chart1Bubbleseries1.AddXY(xx2[i],yy2[i]);
+
+    listbox1.items.Add(floattostr(yy2[i]));
+  end;
+end;
+
+function f(tet1 : real; tet2 : real; tetdot1 : array of real; tetdot2 : array of real) : extended;
+begin
+  Mat1 := ((1/4)*m1 + m2)*l1**2 + in1;
+  Mat2 := (1/2)*m2*l1*l2*cos(tet1 - tet2);
+  Mat3 := (1/4)*m2*l2**2 + in2;
+  Mat[0,0] := Mat1;
+  Mat[0,1] := Mat2;
+  Mat[1,0] := Mat2;
+  Mat[1,1] := Mat3;
+end;
+
+procedure TForm1.Edit4Change(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.GroupBox1Click(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.ListBox1Click(Sender: TObject);
+begin
+
+end;
+
+end.
+

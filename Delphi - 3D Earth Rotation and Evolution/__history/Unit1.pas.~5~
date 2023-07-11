@@ -1,0 +1,127 @@
+unit Unit1;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  System.Math.Vectors, FMX.Ani, FMX.Objects3D, FMX.MaterialSources,
+  FMX.Controls3D, FMX.Viewport3D, FMX.Controls.Presentation, FMX.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Viewport3D1: TViewport3D;
+    Dummy1: TDummy;
+    TextureMaterialSource1: TTextureMaterialSource;
+    TextureMaterialSource2: TTextureMaterialSource;
+    Sphere1: TSphere;
+    Sphere2: TSphere;
+    FloatAnimation1: TFloatAnimation;
+    Timer1: TTimer;
+    FloatAnimation2: TFloatAnimation;
+    TrackBar1: TTrackBar;
+    procedure Timer1Timer(Sender: TObject);
+    procedure TrackBar1Change(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+  t, tahun : integer;
+  da_1, dp_1, da_2, dp_2, da_3, dp_3, da_4, dp_4, da_5, dp_5, da_6, dp_6 : extended;
+  x_1, y_1, x_2, y_2, x_3, y_3, x_4, y_4, x_5, y_5, x_6, y_6, x_7, y_7, x_8, y_8 : array[0..100000] of extended;
+  xe_1, ye_1, xe_2, ye_2, xe_3, ye_3, xe_4, ye_4, xe_5, ye_5, xe_6, ye_6, xe_7, ye_7, xe_8, ye_8 : array[0..100000] of extended;
+
+const
+  //Mercury
+  a_1       = 57.9;
+  b_1       = 65.6703;
+  c_1       = 11.8695;
+  epsilon_1 = 0.205;
+
+  //Venus
+  a_2       = 108;
+  b_2       = 107.9974;
+  c_2       = 0.756;
+  epsilon_2 = 0.007;
+
+  //Earth
+  a_3       = 150;
+  b_3       = 149.9783;
+  c_3       = 2.55;
+  epsilon_3 = 0.017;
+
+  //Mars
+  a_4       = 228;
+  b_4       = 226.9905;
+  c_4       = 21.432;
+  epsilon_4 = 0.094;
+
+  //Jupiter
+  a_5       = 779;
+  b_5       = 778.0643;
+  c_5       = 38.171;
+  epsilon_5 = 0.049;
+
+  //Saturn
+  a_6       = 1430;
+  b_6       = 488.1149;
+  c_6       = 81.51;
+  epsilon_6 = 0.057;
+
+  //Uranus
+  a_7       = 2870;
+  b_7       = 2866.9619;
+  c_7       = 132.02;
+  epsilon_7 = 0.046;
+
+  //Neptune
+  a_8       = 4500;
+  b_8       = 4499.7277;
+  c_8       = 49.5;
+  epsilon_8 = 0.11;
+
+implementation
+
+{$R *.fmx}
+
+procedure TForm1.FormCreate(Sender: TObject);
+begin
+t := 0;
+tahun := 0;
+
+timer1.enabled := true;
+end;
+
+procedure TForm1.Timer1Timer(Sender: TObject);
+begin
+  {x[t] := a*cos(t*pi/180-epsilon);
+  y[t] := a*sqrt(1-sqr(epsilon))*sin(t*pi/180);
+
+  x_e[t] := x[t]*cos(0.02*t*pi/180) - y[t]*sin(0.02*t*pi/180);
+  y_e[t] := x[t]*sin(0.02*t*pi/180) + y[t]*cos(0.02*t*pi/180);
+  }
+
+  x_3[t] := a_3*cos(t*pi/180) + c_3;
+  y_3[t] := b_3*sin(t*pi/180);
+  xe_3[t] := x_3[t]*cos(0.02*t*pi/180) - y_3[t]*sin(0.02*t*pi/180);
+  ye_3[t] := x_3[t]*sin(0.02*t*pi/180) + y_3[t]*cos(0.02*t*pi/180);
+
+  sphere2.Position.X := xe_3[t];
+  sphere2.Position.Z := ye_3[t];
+
+  t := t + 1;
+end;
+
+procedure TForm1.TrackBar1Change(Sender: TObject);
+begin
+  dummy1.Scale.X := TrackBar1.value/10;
+  dummy1.Scale.y := TrackBar1.value/10;
+  dummy1.Scale.z := TrackBar1.value/10;
+end;
+
+end.
